@@ -162,6 +162,7 @@ class Seq2Seq:
         with open(prefix + "-obj.pickle", "wb") as fh:
             pickle.dump(obj, fh)
         self.save_model_weights(prefix)
+        self.save_model(prefix)
 
     @classmethod
     def load(cls, prefix):
@@ -193,6 +194,11 @@ class Seq2Seq:
         self.training_model.save_weights(prefix + "-training.h5")
         self.infer_encoder_model.save_weights(prefix + "-infer-encoder.h5")
         self.infer_decoder_model.save_weights(prefix + "-infer-decoder.h5")
+
+    def save_model(self, prefix):
+        self.training_model.save(prefix + "-full-training.h5")
+        self.infer_encoder_model.save(prefix + "-full-infer-encoder.h5")
+        self.infer_decoder_model.save(prefix + "-full-infer-decoder.h5")
 
     def load_model_weights(self, prefix):
         self.training_model.load_weights(prefix + "-training.h5")

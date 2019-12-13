@@ -18,3 +18,33 @@ A quick example:
 Please see [the documentation](https://pincelate.readthedocs.io/en/latest/) for
 more information!
 
+
+## My Notes
+
+### Install
+
+create conda env
+```
+conda create -n pincelate python=3.7
+conda activate pincelate
+```
+
+training is faster with tensorflow_gpu (50 seconds vs 77 seconds per epoch). change tensorflow to tensorflow_gpu in requirements.txt
+
+install required packages
+```
+pip install -r requirements.txt
+pip install -e .
+pip install jupyterlab numpy scipy
+conda install -c conda-forge ipywidgets
+jupyter labextension install @jupyter-widgets/jupyterlab-manager
+```
+
+modify pincelate/seq2seq.py to save topology and weights
+
+```
+python train.py --model-prefix pincelate/models/orth-phon-enc256-dec256 --src orth --target phon
+python train.py --model-prefix pincelate/models/phon-orth-enc256-dec256 --src orth --target phon
+```
+
+

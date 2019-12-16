@@ -44,7 +44,7 @@ modify pincelate/seq2seq.py to save topology and weights
 
 ```
 python train.py --model-prefix pincelate/models/orth-phon-enc256-dec256 --src orth --target phon
-python train.py --model-prefix pincelate/models/phon-orth-enc256-dec256 --src orth --target phon
+python train.py --model-prefix pincelate/models/phon-orth-enc256-dec256 --src phon --target orth
 ```
 
 

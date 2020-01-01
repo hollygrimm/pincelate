@@ -47,3 +47,5 @@ env3
 
 # project specific stuff
 tests/testmodel*
+.DS_Store
+.vscode/settings.json

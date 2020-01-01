@@ -39,9 +39,9 @@ class Pincelate:
         # otherwise, use the models in the package
         else:
             self.orth2phon = Seq2Seq.load_from_package(
-                    'models/orth-phon-enc256-dec256')
+                    'models/full-orth-phon-enc256-dec256')
             self.phon2orth = Seq2Seq.load_from_package(
-                    'models/phon-orth-enc256-dec256')
+                    'models/full-phon-orth-enc256-dec256')
 
         # looking up the closest arpabet phonemes when sounding out
         self.targets = []
@@ -426,10 +426,10 @@ class Pincelate:
         phon_seq = []
         for item in phon_decoding:
             phon_seq.append(item[0, 0])
-            # if the 'end' token is in the top three features, stop
-            if 'end' in self.orth2phon.to_target_vocab(
-                    sigmoid_top_n(item, 3), maxlen=1)[0]:
-                break
+            # # if the 'end' token is in the top three features, stop
+            # if 'end' in self.orth2phon.to_target_vocab(
+            #         sigmoid_top_n(item, 3), maxlen=1)[0]:
+            #     break
         phon_seq = np.array(phon_seq)
 
         # translate from phonetic features to orthography

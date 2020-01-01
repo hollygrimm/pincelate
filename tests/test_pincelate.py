@@ -17,8 +17,8 @@ class TestPincelate(unittest.TestCase):
     def test_load_custom_models(self):
         from pincelate import Pincelate
         pin = Pincelate(
-                ('pincelate/models/orth-phon-enc256-dec256',
-                 'pincelate/models/phon-orth-enc256-dec256'))
+                ('pincelate/models/full-orth-phon-enc256-dec256',
+                 'pincelate/models/full-phon-orth-enc256-dec256'))
         self.assertEqual(pin.soundout("hello"), ['HH', 'EH1', 'L', 'OW0'])
 
     def test_soundout(self):

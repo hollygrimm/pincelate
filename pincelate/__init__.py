@@ -4,6 +4,10 @@ from pincelate.seq2seq import softmax_temperature, sigmoid_top_n
 
 import numpy as np
 
+# to avoid NameError on @profile decorator
+import line_profiler
+profile = line_profiler.LineProfiler()
+
 __author__ = 'Allison Parrish'
 __email__ = 'allison@decontextualize.com'
 __version__ = '0.0.1'
@@ -344,6 +348,7 @@ class Pincelate:
             end = -1
         return ''.join(orth_seq[start:end])
 
+    @profile
     def manipulate(self, s, letters=None, features=None, temperature=0.25):
         """Manipulate a round-trip respelling of a string
 
@@ -414,8 +419,8 @@ class Pincelate:
                 self.phon2orth.src_vocab_idx_map, **features)
 
         # translate from orthography to phonetic features
-        phon_state_val = self.orth2phon.infer(
-            self.orth2phon.vectorize_src("^"+s+"$", maxlen=31))
+        orth_vector = self.orth2phon.vectorize_src("^"+s+"$", maxlen=31)
+        phon_state_val = self.orth2phon.infer(orth_vector)
         phon_target_seq = self.orth2phon.vectorize_target([["beg"]], 1)
         phon_decoding = self.orth2phon.decode_sequence(
             phon_state_val,
@@ -433,7 +438,8 @@ class Pincelate:
         phon_seq = np.array(phon_seq)
 
         # translate from phonetic features to orthography
-        orth_state_val = self.phon2orth.infer(np.array([phon_seq]))
+        phon_seq = np.expand_dims(phon_seq, axis=0)
+        orth_state_val = self.phon2orth.infer(phon_seq)
         orth_state_seq = self.phon2orth.vectorize_target("^", 1)
         orth_decoding = self.phon2orth.decode_sequence(
             orth_state_val,

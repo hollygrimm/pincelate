@@ -47,4 +47,28 @@ python train.py --model-prefix pincelate/models/full-orth-phon-enc256-dec256 --s
 python train.py --model-prefix pincelate/models/full-phon-orth-enc256-dec256 --src phon --target orth
 ```
 
+## Set up line_profiler
+```
+pip install line_profiler
+```
+
+decorate function with @profile, run kernprof.py
+```
+python "/Users/grimmh/.local/lib/python3.7/site-packages/kernprof.py" -l -v pincelate_profiler.py 
+```
+Writes to pincelate_profiler.py.lprof. Execute again:
+```
+python -m line_profiler pincelate_profiler.py.lprof 
+```
+
+## line_profiler results
+
+|                        |total(s)|o2p(us)  |decode  |p2o      |decode  |
+|------------------------|--------|---------|--------|---------|--------|
+|bat                     |.648116 |230243.0 |88255.0 |218522.0 |110734.0|
+|ticktock                |.651427 |230270.0 |92922.0 |215533.0 |112202.0|
+|internationalization    |.655927 |223533.0 |99595.0 |220403.0 |111542.0|
+
+
+
 
